@@ -2,9 +2,9 @@ import { Server } from "http"
 import app from './app'
 import { logger } from "./utils";
 
-const PORT = process.env.PORT || 8080;
+const PORT = 80;
 let server: Server = app.listen(PORT, () => {
-  logger.debug('Application started on port 8080.')
+  logger.debug('Application started on port 80.')
 })
 
 export default server
