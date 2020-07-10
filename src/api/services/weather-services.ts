@@ -11,7 +11,7 @@ const getCitiesWeather = async (): Promise<ActionResult> => {
   if (cities.length > 0) {
     try {
       for (let i = 0; i < cities.length; i++) {
-        const { lat, lon } = cities[i]
+        const { lat, lon, name } = cities[i]
         const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={minutely, hourly}&appid=${process.env.OPEN_WEATHER_API_KEY}`
         const result = await axios.get(url)
         if (!result) continue
@@ -20,6 +20,7 @@ const getCitiesWeather = async (): Promise<ActionResult> => {
         if (daily && daily.length) {
           result.data.daily = processUTCDate(daily)
         }
+        result.data.name = name
         weatherData.push(result.data)
       }
     } catch (err) {
