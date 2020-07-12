@@ -1,6 +1,6 @@
 import app from '../../src/app'
 jest.mock('../../src/utils/mongo-connection', () => ({
-  getMongoConnection: jest.fn().mockImplementation(() =>  console.log("mock db"))
+  getMongoConnection: jest.fn().mockImplementation(() =>  {})
 }))
 
 describe('App', () => {

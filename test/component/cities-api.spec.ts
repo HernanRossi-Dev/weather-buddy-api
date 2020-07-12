@@ -1,4 +1,3 @@
-import { inMemoryDB, clearDB, closeDB } from '../database-helper'
 jest.mock('../../src/utils/mongo-connection', () => ({
   getMongoConnection: jest.fn().mockImplementation(() => inMemoryDB())
 }))
@@ -9,22 +8,20 @@ jest.mock('../../src/utils/logger', () => ({
 jest.mock('../../src/utils/helper-functions.ts', () => ({
   processUTCDate: jest.fn().mockImplementation(() => { return new Date }),
 }))
-
+import { inMemoryDB, clearDB, closeDB } from '../database-helper'
 import faker from 'faker'
 import request from "supertest"
 import server from '../../src/server'
 import { ICity } from '../../src/models/interfaces'
 
-const createCityMock = () => {
-  const newCity: ICity = {
-      lat: parseFloat(faker.address.latitude()),
-      lon: parseFloat(faker.address.longitude()),
-      name: faker.address.city()
-    }
+const createCityMock = () : ICity => {
+  const newCity = {
+    lat: parseFloat(faker.address.latitude()),
+    lon: parseFloat(faker.address.longitude()),
+    name: faker.address.city()
+  }
   return newCity
 }
-
-let city: ICity
 
 describe('Cities-API', () => {
 
@@ -77,21 +74,19 @@ describe('Cities-API', () => {
       const city = createCityMock()
       await request(server).post(`/api/cities`)
         .send({ ...city })
-        cityName = city.name
+      cityName = city.name
     })
 
     describe('Delete City /api/cities/?name=, ', () => {
-      it('should respond status 422 when parameters invalid', async () => {
+      it('should respond status 200 when parameters name is string', async () => {
         const name = [23423423]
         const res = await request(server).delete(`/api/cities/?name=${name}`)
-        expect(res.status).toEqual(422)
+        expect(res.status).toEqual(200)
         expect(res.body).toHaveProperty('message')
-        expect(res.body).not.toHaveProperty('data')
-        expect(res.body.message).toBe(`Joi validation error: ValidationError: \"_id\" with value \"notvalide!!@@!@!@!@!@!@!@!@\" fails to match the required pattern: /^[a-f\\d]{24}$/i`)
       })
 
       it('should respond status 200 when city not found', async () => {
-        const res = await request(server).delete(`/api/cities/?name=${cityName}`)
+        const res = await request(server).delete(`/api/cities/?name=${cityName}-ville`)
         expect(res.status).toEqual(200)
         expect(res.body).toHaveProperty('data')
         expect(res.body.data).toHaveProperty('deletedCount')

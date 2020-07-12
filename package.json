@@ -7,7 +7,7 @@
     "start": "set NODE_ENV=production&& node -r dotenv/config ./dist/server.js",
     "start-dev": "set NODE_ENV=development&& node -r dotenv/config ./dist/server.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --forceExit --coverage --verbose --detectOpenHandles --runInBand"
   },
   "engines": {
     "node": "14.x.x"

@@ -1,6 +1,6 @@
 import server from '../../src/server'
 jest.mock('../../src/utils/mongo-connection', () => ({
-  getMongoConnection: jest.fn().mockImplementation(() =>  console.log("mock db"))
+  getMongoConnection: jest.fn().mockImplementation(() =>  {})
 }))
 
 describe('server', () => {

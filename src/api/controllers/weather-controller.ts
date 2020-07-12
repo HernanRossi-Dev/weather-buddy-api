@@ -5,9 +5,7 @@ import ActionResult from '../../models/action-result'
 
 export const getCitiesWeather = async (_: Request, res: Response) => {
   try {
-    //Get all cities
     const result: ActionResult = await WeatherServices.getCitiesWeather()
-    //Do call to open weather to get current weather
     logger.debug({ message: 'Retrieve current weather success', data: result })
     res.status(200).json(result.toJSON())
   } catch (err) {
